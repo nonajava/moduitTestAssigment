@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "2e03d9d6-160e-4690-be9b-d904b39ee834",
+		"name": "Moduit Test Assginment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19895731"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response body contains token\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"token\");\r",
+							"});\r",
+							"\r",
+							"let resJson = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"token\", resJson.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"let resJson = pm.response.json();\r",
+							"pm.test(\"response name should be same as request\", function() {\r",
+							"    pm.expect(resJson.name).to.eq(pm.environment.get(\"name\"))\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response job should be same as request\", function() {\r",
+							"    pm.expect(resJson.job).to.eq(pm.environment.get(\"job\"))\r",
+							"});\r",
+							"\r",
+							"pm.test(\"id should be exists\", function() {\r",
+							"    pm.expect(pm.response.text()).to.include(\"id\")\r",
+							"});\r",
+							"\r",
+							"pm.test(\"createdAt should be exists\", function() {\r",
+							"    pm.expect(pm.response.text()).to.include(\"createdAt\")\r",
+							"});\r",
+							"\r",
+							"pm.environment.set(\"id\", resJson.id);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"job\": \"{{job}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"let resJson = pm.response.json();\r",
+							"pm.test(\"response name should be same as request\", function() {\r",
+							"    pm.expect(resJson.name).to.eq(pm.environment.get(\"name\"))\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response job should be same as request\", function() {\r",
+							"    pm.expect(resJson.job).to.eq(pm.environment.get(\"job\"))\r",
+							"});\r",
+							"pm.test(\"updatedAt should be exists\", function() {\r",
+							"    pm.expect(pm.response.text()).to.include(\"updatedAt\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"job\": \"{{job}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/{{id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/{{id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
